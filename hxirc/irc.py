@@ -1,5 +1,6 @@
 from twisted.internet.protocol import Factory
 from twisted.protocols import basic
+import logging
 
 
 class IRCLineReceiver(basic.LineReceiver):
@@ -13,7 +14,7 @@ class IRCLineReceiver(basic.LineReceiver):
 class IRC(IRCLineReceiver):
     def connectionMade(self):
         # Send our connectionresponse and stuff
-        pass
+        logging.info("New Connection from {0}".format(self.transport.getPeer()))
 
     def lineReceived(self, line):
         prefix = ""
@@ -37,8 +38,12 @@ class IRC(IRCLineReceiver):
                 parsed_params.append(param)
             index += 1
 
-            handler_func = getattr(self, "irc_{0}".format(command))
-            handler_func(prefix, *params)
+            logging.debug("Recieved command {0}".format(command))
+            try:
+                handler_func = getattr(self, "irc_{0}".format(command))
+                handler_func(prefix, *params)
+            except:
+                logging.warn("command {0} failed".format(command))
 
 class IRCFactory(Factory):
     protocol = IRC
