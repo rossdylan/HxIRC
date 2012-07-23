@@ -11,5 +11,16 @@ setup(
         description="The Helixoide IRCD",
         author='Ross Delinger',
         author_email='rossdylan@csh.rit.edu',
-        packages=['hxirc'],
-        install_requires=requires)
+        packages=[
+            'hxirc',
+            'hxirc.irc',
+            'hxirc.config',
+            'hxirc.main'
+            ],
+        install_requires=requires,
+        data_files=[('/etc/hxircd.conf', 'config/hxircd.conf')],
+        entry_points="""
+        [console_scripts]
+        hxircd = hxirc.main:main
+        """
+
