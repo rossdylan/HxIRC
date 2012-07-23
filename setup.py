@@ -2,6 +2,7 @@ from setuptools import setup
 
 requires = [
         'twisted',
+        'pyopenssl',
         'pyyaml']
 
 setup(
