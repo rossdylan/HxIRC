@@ -5,3 +5,6 @@ def on_load():
         print proto
         print prefix
         print params
+
+def on_unload():
+    pass
