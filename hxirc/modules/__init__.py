@@ -33,9 +33,15 @@ def fire_hook(_hook, *args, **kwargs):
 def unload_module(mod_name):
     if mod_name in modules:
         fire_hook('module_preunload', mod_name, modules[mod_name])
-        for _hook in hooks:
-            if hooks[_hook].mod == modules[mod_name]:
-                del hooks[_hook]
+        for h in hooks:
+            to_delete = {}
+            index = 0
+            for hinfo in hooks[h]:
+                if hinfo.mod == modules[mod_name]:
+                    to_delete[hook] = index
+                index += 1
+            for h in to_delete:
+                del hooks[h][to_delete[h]]
         modules[mod_name].on_unload()
         fire_hook('module_postunload', mod_name, modules[mod_name])
         del modules[mod_name]
@@ -55,6 +61,7 @@ def load_module(mod_name):
     fire_hook('module_preload', mod_name, modules[mod_name])
     modules[mod_name].on_load()
     fire_hook('module_postload', mod_name, modules[mod_name])
+    log.info('Loaded {0}'.format(mod_name))
 
 def inject_funcs(mod, funcs):
     for name, func in funcs:

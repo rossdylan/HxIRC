@@ -49,6 +49,7 @@ class IRCFactory(Factory):
         self.config_dict = config_dict
 
     def startFactory(self):
+        print config.parse_modules(self.config_dict)
         for mod in config.parse_modules(self.config_dict):
             modules.load_module(mod)
 
