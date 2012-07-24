@@ -4,7 +4,7 @@ from twisted.internet import reactor
 import logging
 
 
-def main(self):
+def main():
     config_dict = yaml.load(file("/etc/hxircd.conf").read())
 
     log_levels = dict(
@@ -20,4 +20,9 @@ def main(self):
             level=log_levels[config_dict['logging']['level']])
 
     endpoints = config.parse_endpoints(config_dict, reactor)
+    for endpoint in endpoints:
+        logging.info("Listening; {0}".format(endpoint))
+
+    logging.info("HxIRCD Starting up")
     reactor.run()
+    logging.info("HxIRCD Shutting down")

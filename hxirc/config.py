@@ -5,16 +5,18 @@ from irc import IRCFactory
 def parse_endpoints(config, reactor):
     endpoints = []
     listeners = config['listen']
-    if 'ssl' in listeners:
+    ssl_listeners = config.get('ssl_listen',{})
+
+    if ssl_listeners != {}:
         from twisted.internet.endpoints import SSL4ServerEndpoint
         from twisted.internet import ssl
         ssl_endpoint = SSL4ServerEndpoint(
                 reactor,
-                listeners['ssl']['port'],
+                ssl_listeners['port'],
                 ssl.DefaultOpenSSLContextFactory(
-                    listeners['ssl']['key'],
-                    listeners['ssl']['cert']),
-                interface=config['ssl']['addr']
+                    ssl_listeners['key'],
+                    ssl_listeners['cert']),
+                interface=ssl_listeners['addr']
                 )
         ssl_endpoint.listen(IRCFactory(config))
         endpoints.append(ssl_endpoint)
