@@ -41,7 +41,7 @@ class IRC(IRCLineReceiver):
             index += 1
 
             logging.debug("Recieved command {0}".format(command))
-            modules.fire_hook(command, prefix, parsed_params)
+            modules.fire_hook(command, self, prefix, parsed_params)
 
 class IRCFactory(Factory):
     protocol = IRC
