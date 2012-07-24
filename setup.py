@@ -13,8 +13,7 @@ setup(
         author_email='rossdylan@csh.rit.edu',
         packages=[
             'hxirc',
-            'hxirc.irc',
-            'hxirc.config',
+            'hxirc.modules',
             ],
         install_requires=requires,
         data_files=[('/etc/hxircd.conf', 'config/hxircd.conf')],
