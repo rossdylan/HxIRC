@@ -5,24 +5,23 @@ import modules
 import config
 
 
-class IRCLineReceiver(basic.LineReceiver):
-
+class IRC(basic.LineReceiver):
+    delimiter = '\n'
     def sendLine(self, line):
-        return basic.LineReciever.sendLine(self,"{0}\r".format(line))
+        basic.LineReciever.sendLine(self,"{0}\r".format(line))
 
     def dataReceived(self, data):
-        return basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
+        basic.LineReceiver.dataReceived(self, data.replace('\r', ''))
 
-class IRC(IRCLineReceiver):
     def connectionMade(self):
         # Send our connectionresponse and stuff
         logging.info("New Connection from {0}".format(self.transport.getPeer()))
 
     def lineReceived(self, line):
         prefix = ""
-        if line.startswith(":"):
-            line = line[1:]
-            line_split = line.split(" ")
+        line_split = line.split(" ")
+        if line_split[0].startswith(":"):
+            line_split[0] = line_split[0][1:]
             prefix = line_split[0]
             line_split = line_split[1:]
 
