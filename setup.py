@@ -22,5 +22,5 @@ setup(
         entry_points="""
         [console_scripts]
         hxircd = hxirc.main:main
-        """
+        """)
 
