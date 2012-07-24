@@ -15,12 +15,11 @@ setup(
             'hxirc',
             'hxirc.irc',
             'hxirc.config',
-            'hxirc.main'
             ],
         install_requires=requires,
         data_files=[('/etc/hxircd.conf', 'config/hxircd.conf')],
         entry_points="""
         [console_scripts]
-        hxircd = hxirc.main:main
+        hxircd = hxirc:main
         """)
 
