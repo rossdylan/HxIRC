@@ -1,6 +1,5 @@
 import logging
 import sys
-
 from collections import namedtuple
 
 log = logging.getLogger('HxIRCD.modules')
@@ -49,6 +48,14 @@ def load_module(mod_name):
     if mod_name in modules:
         unload_module(mod_name)
     modules[mod_name] = __import__(mod_name, globals(), locals(), [], -1)
+    inject_funcs(
+            modules[mod_name],
+            [('hook', hook),])
+
     fire_hook('module_preload', mod_name, modules[mod_name])
     modules[mod_name].on_load()
     fire_hook('module_postload', mod_name, modules[mod_name])
+
+def inject_funcs(mod, funcs):
+    for name, func in funcs:
+        setattr(mod, name, func)
