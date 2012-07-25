@@ -28,7 +28,7 @@ def fire_hook(_hook, *args, **kwargs):
             try:
                 func(*args, **kwargs)
             except:
-                log.ERROR('Hook "{0}" for {1} failed'.format(_hook, func))
+                log.error('Hook "{0}" for {1} failed'.format(_hook, func))
 
 def unload_module(mod_name):
     if mod_name in modules:
