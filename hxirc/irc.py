@@ -28,7 +28,7 @@ class IRC(basic.LineReceiver):
         command = line_split[0]
         params = line_split[1:]
         parsed_params = []
-        index= 0
+        index = 0
         for param in params:
             if param.startswith(':'):
                 param = param[1:]
@@ -42,11 +42,26 @@ class IRC(basic.LineReceiver):
             logging.debug("Recieved command {0}".format(command))
             modules.fire_hook(command, self, prefix, parsed_params)
 
+    def store(self, key, value):
+        self.factory.storage[key] = value
+
+    def get(self, key):
+        return self.factory.storage.get(key, None)
+
+    def delete(self, key):
+        try:
+            del self.factory.storage[key]
+            return True
+        except:
+            return False
+
+
 class IRCFactory(Factory):
     protocol = IRC
 
     def __init__(self, config_dict):
         self.config_dict = config_dict
+        self.storage = {}
 
     def startFactory(self):
         print config.parse_modules(self.config_dict)
