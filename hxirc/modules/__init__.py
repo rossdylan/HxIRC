@@ -23,7 +23,6 @@ def hook(command):
 
 def fire_hook(_hook, *args, **kwargs):
     if _hook in hooks:
-        print hooks
         for hinfo in hooks[_hook]:
             func = hinfo.func
             log.debug('Firing "{0}" hook for {1}'.format(_hook, func))
