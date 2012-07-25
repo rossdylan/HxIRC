@@ -14,6 +14,7 @@ setup(
         packages=[
             'hxirc',
             'hxirc.modules',
+            'hxirc.modules.core',
             ],
         install_requires=requires,
         data_files=[('/etc/hxircd.conf', 'config/hxircd.conf')],
