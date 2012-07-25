@@ -1,5 +1,6 @@
 import logging
 import sys
+import traceback
 from collections import namedtuple
 
 log = logging.getLogger('HxIRCD.modules')
@@ -22,13 +23,16 @@ def hook(command):
 
 def fire_hook(_hook, *args, **kwargs):
     if _hook in hooks:
+        print hooks
         for hinfo in hooks[_hook]:
             func = hinfo.func
             log.debug('Firing "{0}" hook for {1}'.format(_hook, func))
             try:
                 func(*args, **kwargs)
             except:
+
                 log.error('Hook "{0}" for {1} failed'.format(_hook, func))
+                traceback.print_exc()
 
 def unload_module(mod_name):
     if mod_name in modules:
